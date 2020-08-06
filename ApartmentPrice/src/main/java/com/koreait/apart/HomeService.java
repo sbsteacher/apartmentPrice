@@ -47,38 +47,15 @@ public class HomeService {
 		String decodeServiceKey = null;
 		try {
 			decodeServiceKey = URLDecoder.decode(serviceKey, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+		} catch (UnsupportedEncodingException e) {			
 			e.printStackTrace();
 		}
-		
-		MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
-		map.add("LAWD_CD", lawd_cd);
-		map.add("DEAL_YMD", deal_ym);
-		map.add("serviceKey", serviceKey);
-		//HttpEntity<LinkedMultiValueMap<String, Object>> entity = new HttpEntity(map);
-		
-		
-		
-		 //Set the headers you need send
+
         final HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_XML));
         headers.setContentType(new MediaType("application","xml",Charset.forName("UTF-8")));
-        
-        //Create a new HttpEntity
+
         final HttpEntity<String> entity = new HttpEntity<String>(headers);
-        
-		
-		//HttpHeaders headers = new HttpHeaders();
-		//headers.setAccept(Arrays.asList(MediaType.APPLICATION_XML));
-		//HttpEntity<String> entity = new HttpEntity<String>(map, headers);
-		//HttpEntity<LinkedMultiValueMap<String, Object>> entity = new HttpEntity(map, headers);
-		/*
-		Map<String, String> map= new HashMap();
-		map.put("LAWD_CD", lawd_cd);
-		map.put("DEAL_YM", deal_ym);
-		map.put("serviceKey", serviceKey);
-		*/
 		
         UriComponents  builder = UriComponentsBuilder.fromHttpUrl(url)
 		        .queryParam("LAWD_CD", lawd_cd)
@@ -89,7 +66,6 @@ public class HomeService {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters()
         .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
-		//ResponseDTO rDto	= restTemplate.getForObject(url, ResponseDTO.class, map);
 		
 		System.out.println("builder.toString() : " + builder.toUriString());
 		
