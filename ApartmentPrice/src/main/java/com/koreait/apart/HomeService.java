@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.koreait.apart.dto.ItemDTO;
 import com.koreait.apart.dto.ResponseDTO;
 
 @Service
@@ -53,7 +54,6 @@ public class HomeService {
 
         final HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_XML));
-        headers.setContentType(new MediaType("application","xml",Charset.forName("UTF-8")));
 
         final HttpEntity<String> entity = new HttpEntity<String>(headers);
 		
@@ -62,7 +62,8 @@ public class HomeService {
 		        .queryParam("DEAL_YMD", deal_ym)
 		        .queryParam("serviceKey", decodeServiceKey)
 		        .build(false);
-		
+		        
+        
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters()
         .add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
@@ -75,16 +76,26 @@ public class HomeService {
 		String result = respEntity.getBody();
 		
 		ObjectMapper om = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		ResponseDTO dto = null;
 		try {
-			ResponseDTO dto = om.readValue(result, ResponseDTO.class);
-			
-			System.out.println("dto : " + dto.getBody().getItems().get(0).getApartmentName());
+			dto = om.readValue(result, ResponseDTO.class);			
 		} catch (Exception e) {		
 			e.printStackTrace();
 		}
 		
-		System.out.println("result : " + respEntity.getBody());
+		List<ItemDTO> list = dto.getBody().getItems();
+		
+		if(list.size() > 0) { //DB에 insert
+			for(ItemDTO item : list) {
+				String s = item.getDealAmount();
+				item.setDealAmount(s.replace(",", ""));
+				mapper.insApartmentInfo(item);
+			}
+		}
+		
 		
 		return "";
 	}
+	
+	
 }

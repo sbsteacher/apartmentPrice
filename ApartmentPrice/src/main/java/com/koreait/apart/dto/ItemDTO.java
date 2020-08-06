@@ -1,8 +1,11 @@
 package com.koreait.apart.dto;
 
+import org.apache.ibatis.type.Alias;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+@Alias("ItemDTO")
 @JacksonXmlRootElement(localName="item")
 public class ItemDTO {
 	@JacksonXmlProperty(localName="거래금액")
@@ -34,6 +37,16 @@ public class ItemDTO {
 	
 	@JacksonXmlProperty(localName="층")
 	private int flr;
+	
+	@JacksonXmlProperty(localName="지역코드")
+	private String regionalCode;
+	
+	public String getRegionalCode() {
+		return regionalCode;
+	}
+	public void setRegionalCode(String regionalCode) {
+		this.regionalCode = regionalCode;
+	}
 	
 	public String getDealAmount() {
 		return dealAmount;
