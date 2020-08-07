@@ -22,12 +22,12 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/result", method=RequestMethod.POST) 
-	public String result(SearchVO param) {
+	public String result(Model model, SearchVO param) {
 		System.out.println("year : " + param.getYear());
 		System.out.println("mon : " + param.getMon());
 		System.out.println("locationCd : " + param.getLocationCd());
 		
-		service.getData(param);
+		model.addAttribute("data", service.getData(param));
 		
 		return "result";
 	}
