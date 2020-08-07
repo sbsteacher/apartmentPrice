@@ -22,4 +22,31 @@
 		FROM location_code
 		ORDER BY local_nm ASC
 	</select>
+	
+	<select id="selApartmentInfoList" 
+		resultType="ApartInfoVO" 
+		parameterType="SearchVO">
+		SELECT
+			A.*, B.local_nm
+		FROM apartment_info A
+		INNER JOIN location_code B
+		ON A.location_cd = B.cd
+		WHERE A.deal_year = #{year}
+		AND A.deal_month = #{mon}
+		AND B.external_cd = #{locationCd}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

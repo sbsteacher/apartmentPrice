@@ -38,7 +38,13 @@ public class HomeService {
 		return mapper.selLocationCdList();
 	}
 	
-	public String getData(SearchVO param) {
+	public List<ApartInfoVO> getData(SearchVO param) {
+		
+		List<ApartInfoVO> data = mapper.selApartmentInfoList(param);
+		if(data.size() > 0) {
+			return data;
+		}
+		
 		String lawd_cd = param.getLocationCd();
 		String deal_ym = String.format("%s%02d", param.getYear(), param.getMon());
 		System.out.println("deal_ym : " + deal_ym);
@@ -93,8 +99,7 @@ public class HomeService {
 			}
 		}
 		
-		
-		return "";
+		return mapper.selApartmentInfoList(param);
 	}
 	
 	

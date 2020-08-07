@@ -1,5 +1,8 @@
 package com.koreait.apart;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("SearchVO")
 public class SearchVO {
 	private int year;
 	private int mon;
